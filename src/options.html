@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Better SIS Configuration</title>
+  <style>
+    body: { padding: 10px; }
+		input {
+			width: 250px;
+			float: right;
+		}
+		.clearfix {
+			clear: both;
+		}
+		.label { 
+			float: left;
+		}
+		button {
+			float:left;
+		}
+		#status {
+			padding-top: 5px;
+			width: 70%;
+			float: right;
+			text-align: center;
+			font-size: 15px;
+		}
+  </style>
+</head>
+
+<body>
+  <div class="row"><span class="label">Aeries URL:</span><input id="aeries" type="text" placeholder="https://mvla.asp.aeries.net/student/"></div>
+	<div class="clearfix"></div>
+  <div class="row"><span class="label">Email:</span><input id="email" type="text" placeholder="john.smith@school.edu"></div>
+	<div class="clearfix"></div>
+  <div class="row"><span class="label">Password:</span><input id="password" type="password" placeholder="coolcat123"></div>
+	<div class="clearfix"></div>
+  <button id="save">Save</button>
+  <div id="status"></div>
+	<div class="clearfix"></div>
+	
+  <script src="options.js"></script>
+</body>
+</html>

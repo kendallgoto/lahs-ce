@@ -1,0 +1,98 @@
+body {
+	font-family: 'Roboto', sans-serif;
+	width: 300px;
+	min-height: 250px;
+	margin: 0 !important;
+	padding: 0;
+	background-color: #eef3ef;
+	overflow: hidden;
+}
+
+.header, .footer {
+	color: #c93228;
+	height: 28px;
+	text-align: center;
+	background-color: #f9aa47;
+	padding: 3px;
+}
+.header h1, .footer h1 {
+	margin: 0;
+}
+.footer {
+	background-color: #3e6d8d;
+}
+a {
+  color: #eef3ef;
+  text-decoration: none;
+	cursor: pointer;
+	outline: none;
+}
+.center {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+.hidden {
+	display: none;
+}
+table {
+	width: 100%;
+	padding: 5px;
+}
+thead {
+	text-align: left;
+}
+td {
+	height: 28px;
+}
+
+@keyframes lds-eclipse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes lds-eclipse {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+.lds-eclipse {
+  position: relative;
+}
+.lds-eclipse div {
+  position: absolute;
+  -webkit-animation: lds-eclipse 1s linear infinite;
+  animation: lds-eclipse 1s linear infinite;
+  width: 160px;
+  height: 160px;
+  top: 20px;
+  left: 20px;
+  border-radius: 50%;
+  box-shadow: 0 4px 0 0 #3e6d8d;
+  -webkit-transform-origin: 80px 82px;
+  transform-origin: 80px 82px;
+}
+.lds-eclipse {
+  width: 200px !important;
+  height: 200px !important;
+  -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+  transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}

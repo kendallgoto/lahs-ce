@@ -1,0 +1,20 @@
+{
+  "name": "Better SIS",
+  "version": "0.5",
+  "description": "Improves Aeries SIS for more convinent use.",
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_title": "SIS"
+  },
+  "permissions": [
+		"cookies",
+		"storage",
+    "https://mvla.asp.aeries.net/*",
+    "http://mvla.asp.aeries.net/*"
+  ],
+	"options_ui": {
+		"page": "options.html",
+		"chrome_style": true
+	},
+  "manifest_version": 2
+}

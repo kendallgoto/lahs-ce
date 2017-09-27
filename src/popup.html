@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Better SIS</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/popup.js"></script>
+  </head>
+  <body>
+    <div class="container">
+			<div id="main">
+				<div class="header">
+					<h1 id="headText">Loading . . .</h1>
+				</div>
+				<div class="body">
+					<div class="lds-css ng-scope">
+					  <div style="width:100%; height: 100%" class="center lds-eclipse">
+					    <div></div>
+					  </div>
+					</div>
+					<table class="hidden" id="grades">
+						<thead>
+							<tr>
+								<th>Per</th>
+								<th>Class Title</th>
+								<th>Grade</th>
+								<th style="text-align: right;">Updated</th>
+							</tr>
+						</thead>
+						<tbody>		
+							<template id="class">
+								<tr>
+									<td style="width: 10%" id="period">1</td>
+									<td style="width: 35%" id="classname">Class Name</td>
+									<td style="width: 25%" id="grade">A- (91.5%)</td>
+									<td style="width: 30%;text-align:right;" id="updated">(Sept 9)</td>
+								</tr>
+							</template>
+						</tbody>
+					</table>
+			</div>
+			<div class="footer">
+				<a href="https://mvla.asp.aeries.net/Student/">
+				<h1 id="sis">To SIS &rsaquo;</h1>
+			</div>
+    </div>
+  </body>
+</html>
