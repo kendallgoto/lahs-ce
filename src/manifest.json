@@ -9,8 +9,8 @@
   "permissions": [
 		"cookies",
 		"storage",
-    "https://mvla.asp.aeries.net/*",
-    "http://mvla.asp.aeries.net/*"
+    "https://*.asp.aeries.net/*",
+    "http://*.asp.aeries.net/*"
   ],
 	"options_ui": {
 		"page": "options.html",

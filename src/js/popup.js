@@ -28,7 +28,7 @@ function loadClassesWithData(data) {
 }
 function login(user, pass) {
 	return $.ajax({
-		url: 'https://mvla.asp.aeries.net/Student/LoginParent.aspx',
+		url: aeriesURL+'LoginParent.aspx',
 		method: 'POST',
 		data: 'checkCookiesEnabled=true&checkMobileDevice=false&checkStandaloneMode=false&checkTabletDevice=false&portalAccountUsername='+user+'&portalAccountPassword='+pass+'&portalAccountUsernameLabel=&submit=',
 		headers: {
@@ -52,7 +52,7 @@ function logOutUser(resetWho) {
 }
 function fetchClass() {
 	return $.ajax({
-			url: 'https://mvla.asp.aeries.net/student/Widgets/ClassSummary/GetClassSummary?IsProfile=True',
+			url: aeriesURL+'Widgets/ClassSummary/GetClassSummary?IsProfile=True',
 			method: 'GET'
 		});
 }
