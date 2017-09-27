@@ -114,6 +114,7 @@ $(function() {
 			logOutUser("aeries");
 			return;
 		}
+		$('.footer a').attr('href', aeriesURL);
 		console.log("trying no-auth");
 		fetchClass().done(function(data){
 			console.log(data);
@@ -125,8 +126,8 @@ $(function() {
 			console.log('success')
 			loadClassesWithData(data);
 		}).fail(function(err) {
-			//TODO: check internet connectivity.
 			$('#headText').text("Network Error");
+			//or invalid aeries url.
 			//bootSequence_phase2();
 		});
 	});
