@@ -1,29 +1,50 @@
 var aeriesURL;
 function loadClassesWithData(data) {
-	$(".lds-css").remove();
-	$('#grades').removeClass('hidden');
-	var date = new Date();
-	var day = date.getDate();
-	var month = date.getMonth()+1;
-	var year = date.getFullYear();
-	if(day<10) {
-	    day = '0'+day
-	} 
-	if(month<10) {
-	    month = '0'+month
-	} 
-	var dateString = month + '/' + day + '/' + year;
-	$('#headText').text(dateString);
-	console.log('foreach');
-	data.forEach(function(thisEle){
-		console.log(thisEle);
-		var newClass = $($('template#class').prop('content')).clone().find('tr');
-		$('#period', newClass).removeAttr('id').text(thisEle.Period);
-		$('#classname', newClass).removeAttr('id').text(thisEle.CourseName);
-		$('#grade', newClass).removeAttr('id').text(thisEle.CurrentMarkAndScore);
-		$('#updated', newClass).removeAttr('id').text("("+thisEle.LastUpdated+")");
-		console.log(newClass);
-		$('#grades').append(newClass);
+	
+  chrome.storage.local.get({
+    lastBlob: '',
+  }, function(items) {
+		var compCheck = false;
+		var lastBlob = items.lastBlob;
+		if(lastBlob.length > 0) {
+			//compare blobs!
+			compCheck = true;
+		}
+		$(".lds-css").remove();
+		$('#grades').removeClass('hidden');
+		var date = new Date();
+		var day = date.getDate();
+		var month = date.getMonth()+1;
+		var year = date.getFullYear();
+		if(day<10) {
+		    day = '0'+day
+		} 
+		if(month<10) {
+		    month = '0'+month
+		} 
+		var dateString = month + '/' + day + '/' + year;
+		$('#headText').text(dateString);
+		var i = 0;
+		data.forEach(function(thisEle){
+			var newClass = $($('template#class').prop('content')).clone().find('tr');
+			$('#period', newClass).removeAttr('id').text(thisEle.Period);
+			$('#classname', newClass).removeAttr('id').text(thisEle.CourseName);
+			$('#grade', newClass).text(thisEle.CurrentMarkAndScore);
+			$('#updated', newClass).removeAttr('id').text("("+thisEle.LastUpdated+")");
+			$('#grades').append(newClass);
+			if(compCheck) {
+				var compBlob = lastBlob[i];
+				if(thisEle.CurrentMarkAndScore != compBlob.CurrentMarkAndScore) {
+					//grade changed from last check!
+					$('#grade', newClass).text($('#grade', newClass).text() + " was " + compBlob.CurrentScore);
+				}
+			}
+			$('#grade', newClass).removeAttr('id');
+		  chrome.storage.local.set({
+		    lastBlob: data
+		  }, function() {});
+			i++;
+		});
 	});
 }
 function login(user, pass) {
@@ -41,10 +62,8 @@ function logOutUser(resetWho) {
     [resetWho]: ""
   }, function() {
 	  if (chrome.runtime.openOptionsPage) {
-	    // New way to open options pages, if supported (Chrome 42+).
 	    chrome.runtime.openOptionsPage();
 	  } else {
-	    // Reasonable fallback.
 	    window.open(chrome.runtime.getURL('options.html'));
 	  }
 		window.close();
@@ -55,9 +74,6 @@ function fetchClass() {
 			url: aeriesURL+'Widgets/ClassSummary/GetClassSummary?IsProfile=True',
 			method: 'GET'
 		});
-}
-function promptForPassword() {
-
 }
 //Called when initial fetch fails.
 function bootSequence_phase2() {
@@ -71,14 +87,11 @@ function bootSequence_phase2() {
 			return;
 		}
 		login(items.user, items.pass).done(function() {
-			console.log('authed');
 			fetchClass().done(function(data){
 				if(!Array.isArray(data) || (data.length > 10 && data.length <= 0)) {
-					console.log('failed w/ auth');
 					logOutUser("pass");
 					return;
 				}
-				console.log('success');
 				loadClassesWithData(data);
 			}).fail(function() {
 				$('#headText').text("Network Error");
@@ -88,14 +101,6 @@ function bootSequence_phase2() {
   });
 }
 $(function() {
-	//loaded!
-	/*
-	if(chrome.storage.local.get('sis-pass') != "") {
-		//password needed!
-		promptForPassword();
-		return;
-	}
-	*/
 	//Boot sequence:
 	// Try to load page
 	// If fails, log in then load page
@@ -115,20 +120,15 @@ $(function() {
 			return;
 		}
 		$('.footer a').attr('href', aeriesURL);
-		console.log("trying no-auth");
 		fetchClass().done(function(data){
-			console.log(data);
 			if(!Array.isArray(data) || (data.length > 10 && data.length <= 0)) {
-				console.log('failed - authing')
 				bootSequence_phase2();
 				return;
 			}
-			console.log('success')
 			loadClassesWithData(data);
 		}).fail(function(err) {
 			$('#headText').text("Network Error");
 			//or invalid aeries url.
-			//bootSequence_phase2();
 		});
 	});
 });
