@@ -1,6 +1,8 @@
 var aeriesURL;
 function loadClassesWithData(data) {
-	
+	if(loadedFaux)
+		return;
+	console.log(data);
   chrome.storage.local.get({
     lastBlob: '',
   }, function(items) {
@@ -36,7 +38,8 @@ function loadClassesWithData(data) {
 				var compBlob = lastBlob[i];
 				if(thisEle.CurrentMarkAndScore != compBlob.CurrentMarkAndScore) {
 					//grade changed from last check!
-					$('#grade', newClass).text($('#grade', newClass).text() + " was " + compBlob.CurrentScore);
+					$('#grade', newClass).text($('#grade', newClass).text() + " was " + compBlob.Percent);
+					$(newClass).addClass('changed');
 				}
 			}
 			$('#grade', newClass).removeAttr('id');
@@ -76,18 +79,27 @@ function fetchClass() {
 		});
 }
 //Called when initial fetch fails.
+var loadedFaux = 0; //cancel load if fauxing
 function bootSequence_phase2() {
+	if(loadedFaux)
+		return;
   chrome.storage.local.get({
     aeries: '',
     user: '',
     pass: ''
   }, function(items) {
+		if(loadedFaux)
+			return;
 		if(items.aeries == '') {
 			logOutUser("aeries");
 			return;
 		}
 		login(items.user, items.pass).done(function() {
+			if(loadedFaux)
+				return;
 			fetchClass().done(function(data){
+				if(loadedFaux)
+					return;
 				if(!Array.isArray(data) || (data.length > 10 && data.length <= 0)) {
 					logOutUser("pass");
 					return;
@@ -100,13 +112,70 @@ function bootSequence_phase2() {
 		});
   });
 }
+function fetchCalc(method) {
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendRequest(tab.id, {fetchGrade: true}, method);
+	});
+}
+function renderFromData(data) {
+	data.forEach(function(thisEle){
+		var newCat = $($('template#cat').prop('content')).clone().find('tr');
+		if(thisEle.name != "Overall") {
+			$('#category', newCat).removeAttr('id').text(thisEle.name);
+			$('#weight', newCat).removeAttr('id').text(thisEle.weight);
+			$('#score', newCat).removeAttr('id').text(thisEle.points);
+			$('#outOf', newCat).removeAttr('id').text(thisEle.of);
+		} else {
+			$('#category', newCat).removeAttr('id').text(thisEle.name);
+			$('#weight', newCat).removeAttr('id').text("");
+			$('#score', newCat).removeAttr('id').text("");
+			$('#outOf', newCat).removeAttr('id').text("");
+		}
+		$('#percent', newCat).removeAttr('id').text((thisEle.grade * 100).toFixed(2)+"%");
+		$('#calc').append(newCat);
+	});
+	$('body').css('height', 'auto'); //bugfix
+}
+function loadFaux() {
+	loadedFaux = 1;
+	addFaux("1");
+	$('body').css('min-height', 0);
+	$('.footer a').attr('href', "javascript:addFaux(0)");
+	$('.footer #sis').text("+ Add Fake Assignment");
+	$('#headText').text("Grade Calculator");
+	$(".lds-css").remove();
+	//create fake table
+	$('#calc').removeClass('hidden');
+	fetchCalc(function(res) {
+		console.log("from popup");
+		console.log(res);
+		//render
+		renderFromData(res);
+	});
+}
+function addFaux(param) {
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendRequest(tab.id, {addNewFaux: param}, null);
+	});
+}
 $(function() {
 	//Boot sequence:
 	// Try to load page
 	// If fails, log in then load page
 	// If fails, prompt user for login.
+	chrome.tabs.getSelected(null, function(tab) {
+		if(tab.url) {
+			console.log(tab.url);
+		 if(tab.url.toLowerCase().includes("/student/gradebookdetails.aspx")) {
+			 loadFaux();
+		 }
+	 }
+  });
   $('body').on('click', 'a', function(){
-    chrome.tabs.create({url: $(this).attr('href')});
+		if($(this).attr('href') == "javascript:addFaux(0)")
+			addFaux(0);
+		else
+    	chrome.tabs.create({url: $(this).attr('href')});
     return false;
   });
   chrome.storage.local.get({
@@ -115,6 +184,8 @@ $(function() {
     pass: ''
   }, function(items) {
 		aeriesURL = items.aeries;
+		if(loadedFaux)
+			return;
 		if(aeriesURL == null) {
 			logOutUser("aeries");
 			return;

@@ -1,0 +1,118 @@
+#ctl00_MainContent_ctl13_tblEverything {
+	display: none;
+}
+#quick-resources {
+	display: none;
+}
+#parent-tour {
+	display: none;
+}
+#ctl00_MainContent_ParentAdminCalendarEventsWrapper {
+	display: none;
+}
+#ctl00_MainContent_ctl08_tblEverything {
+	display: none;
+}
+#ctl00_MainContent_quickTestScores_tblEverything {
+	display; none;
+}
+#ParentHomeRow3 .a-col-12 {
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+	padding-top: 30px;
+}
+#ParentHomeRow2_Right {
+	padding-left: 0 !important;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+table#tableClassSummary, table#ctl00_MainContent_subAttSummary_tblEverything {
+	width: 90%;
+	margin-left:auto;
+	margin-right:auto;
+	float: none;
+}
+table#ctl00_MainContent_quickTestScores_tblEverything {
+	display: none;
+}
+#ctl00_MainContent_subHSG_subTPS_divAllTPS {
+	padding: 20px;
+}
+#ctl00_MainContent_subHSG_btnPrint {
+	width: 10%;
+	padding: 5px;
+}
+#printButton {
+	margin-left: 25px;
+}
+#ctl00_MainContent_divStudentProfile .a-col-12 {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	float: none;
+}
+
+/* clean up some useless columns on the grade table */
+table.classSummaryTable thead th:nth-child(13), table.classSummaryTable tbody td:nth-child(13) { 
+	display: none;
+}
+table.classSummaryTable thead th:nth-child(14), table.classSummaryTable tbody td:nth-child(14) {
+	display: none;
+}
+.FullWidthAutoHeight.Max1200 {
+	max-width: none !important;
+}
+.FullWidthAutoHeight {
+	float: none !important;
+	width: 90% !important;
+	margin-left: auto;
+	margin-right: auto;
+}
+.GradebookDetailsTable.ResultsTable {
+	display: inline-table;
+	width: 100%;
+}
+#ctl00_MainContent_subGBS_assignmentsView > table:nth-child(4) {
+	width: 25%;
+	margin-left: auto;
+	margin-top: 20px;
+}
+#ctl00_MainContent_subGBS_assignmentsView br {
+	display: none;
+}
+.student-photo-wrapper, #ctl00_MainContent_subGBS_assignmentsView > table:nth-child(2) {
+	display: none !important;
+}
+#ctl00_MainContent_subGBS_upEverything .Filters {
+	display: none;
+}
+#ctl00_MainContent_subGBS_tblEverything {
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+}
+#ctl00_MainContent_subGBS_DataDetails_ctl01_trHeader td:nth-child(14), tr[id$=trGBKItem] td:nth-child(14),
+#ctl00_MainContent_subGBS_DataDetails_ctl01_trHeader  td:nth-child(8), tr[id$=trGBKItem] td:nth-child(8)
+ {
+	display: none;
+}
+tr.assignment-info.zebra.highlight-row.customGrade {
+	background-color: rgba(255,0,0,0.15);
+}
+.highlight-row.customGrade:hover td, .DropDownRow.customGrade:hover td, .DropDownRowSelect.customGrade:hover td, .k-grid.customGrade tr:hover td {
+	background-color: rgba(255,0,0,0.3);
+}
+#ctl00_MainContent_subGBS_DataDetails_ctl07_divTrendHelp {
+	display: none;
+}
+#ctl00_MainContent_subGBS_DataDetails_ctl01_trHeader td:nth-child(15),
+#ctl00_MainContent_subGBS_DataDetails_ctl01_trGBKItem td:nth-child(15) {
+	display: none;
+}
+#ctl00_MainContent_subAttSummary_tblEverything .attendance .CatHeader {
+	display: none;
+}

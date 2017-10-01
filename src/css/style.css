@@ -6,6 +6,9 @@ body {
 	padding: 0;
 	background-color: #eef3ef;
 	overflow: hidden;
+  -webkit-transition: height 1s; /* Safari */
+  transition: height 1s;
+	
 }
 
 .header, .footer {
@@ -38,6 +41,7 @@ a {
 table {
 	width: 100%;
 	padding: 5px;
+	border-collapse: collapse;
 }
 thead {
 	text-align: left;
@@ -45,7 +49,9 @@ thead {
 td {
 	height: 28px;
 }
-
+tr.changed {
+	background-color: #f9aa47;
+}
 @keyframes lds-eclipse {
   0% {
     -webkit-transform: rotate(0deg);
