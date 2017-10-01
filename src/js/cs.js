@@ -89,20 +89,15 @@ function fetchAlternates() {
 		//add fake points
 		var outOf = $('.fauxOf', this).text();
 		var scored = $('.fauxScored', this).text();
-		console.log('brandnew'+categoryArr[indx]);
 		categoryPoints_clone[indx] = parseFloat(categoryPoints_clone[indx]) + parseFloat(scored);
 		categoryOutOf_clone[indx] = parseFloat(categoryOutOf_clone[indx]) + parseFloat(outOf);
 		
 	});
 	for(var i = 0; i < categoryArr.length; i++) {
-		console.log('category '+categoryArr[i]);
-		console.log('category sum ' + categorySum);
 		if(parseFloat(categoryOutOf_clone[i]) != 0) {
 			categorySum += parseFloat(categoryWeight[i]);
-			console.log('addin '+categoryArr[i]);
 		}
 	}
-	console.log('category sum ' + categorySum);
 	//recalculate using these.
 	return calculate();
 }
@@ -128,6 +123,5 @@ function calculate() {
 		"name": "Overall",
 		"grade": (cont / (categorySum / 100))
 	});
-	console.log(result);
 	return result;
 }

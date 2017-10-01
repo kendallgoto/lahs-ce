@@ -2,7 +2,6 @@ var aeriesURL;
 function loadClassesWithData(data) {
 	if(loadedFaux)
 		return;
-	console.log(data);
   chrome.storage.local.get({
     lastBlob: '',
   }, function(items) {
@@ -147,8 +146,6 @@ function loadFaux() {
 	//create fake table
 	$('#calc').removeClass('hidden');
 	fetchCalc(function(res) {
-		console.log("from popup");
-		console.log(res);
 		//render
 		renderFromData(res);
 	});
@@ -165,7 +162,6 @@ $(function() {
 	// If fails, prompt user for login.
 	chrome.tabs.getSelected(null, function(tab) {
 		if(tab.url) {
-			console.log(tab.url);
 		 if(tab.url.toLowerCase().includes("/student/gradebookdetails.aspx")) {
 			 loadFaux();
 		 }
