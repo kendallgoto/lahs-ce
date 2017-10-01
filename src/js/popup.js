@@ -182,7 +182,7 @@ $(function() {
 		aeriesURL = items.aeries;
 		if(loadedFaux)
 			return;
-		if(aeriesURL == null) {
+		if(aeriesURL == "") {
 			logOutUser("aeries");
 			return;
 		}
