@@ -4,3 +4,5 @@
 /out-tsc
 .DS_STORE
 Thumbs.db
+src.pem
+src.crx
