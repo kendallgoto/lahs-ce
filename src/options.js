@@ -3,7 +3,7 @@ function save_options() {
   var email = document.getElementById('email').value;
   var password = document.getElementById('password').value;
   chrome.storage.local.set({
-    aeries: aeries,
+    aeriesid: aeries,
     user: email,
     pass: password,
   }, function() {
@@ -17,7 +17,7 @@ function save_options() {
 }
 function restore_options() {
   chrome.storage.local.get({
-    aeries: '',
+    aeriesid: 'mvla',
     user: '',
     pass: ''
   }, function(items) {

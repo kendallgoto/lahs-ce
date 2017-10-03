@@ -83,13 +83,13 @@ function bootSequence_phase2() {
 	if(loadedFaux)
 		return;
   chrome.storage.local.get({
-    aeries: '',
+    aeriesid: '',
     user: '',
     pass: ''
   }, function(items) {
 		if(loadedFaux)
 			return;
-		if(items.aeries == '') {
+		if(items.aeriesid == '') {
 			logOutUser("aeries");
 			return;
 		}
@@ -175,11 +175,11 @@ $(function() {
     return false;
   });
   chrome.storage.local.get({
-    aeries: '',
+    aeriesid: '',
     user: '',
     pass: ''
   }, function(items) {
-		aeriesURL = items.aeries;
+		aeriesURL = items.aeriesid = ".asp.aeries.net/student/";
 		if(loadedFaux)
 			return;
 		if(aeriesURL == "") {
@@ -195,7 +195,6 @@ $(function() {
 			loadClassesWithData(data);
 		}).fail(function(err) {
 			$('#headText').text("Network Error");
-			//or invalid aeries url.
 		});
 	});
 });
