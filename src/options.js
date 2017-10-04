@@ -21,7 +21,7 @@ function restore_options() {
     user: '',
     pass: ''
   }, function(items) {
-	 	document.getElementById('aeries').value = items.aeries;
+	 	document.getElementById('aeries').value = items.aeriesid;
 	  document.getElementById('email').value = items.user;
 	  document.getElementById('password').value = items.pass;
 		//https://stackoverflow.com/questions/30541436/focus-on-the-first-empty-input

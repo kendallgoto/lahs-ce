@@ -179,7 +179,7 @@ $(function() {
     user: '',
     pass: ''
   }, function(items) {
-		aeriesURL = items.aeriesid = ".asp.aeries.net/student/";
+		aeriesURL = "https://" +items.aeriesid + ".asp.aeries.net/student/";
 		if(loadedFaux)
 			return;
 		if(aeriesURL == "") {

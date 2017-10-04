@@ -1,7 +1,7 @@
 {
   "name": "Better SIS",
 	"short_name": "SIS+",
-  "version": "1.0",
+  "version": "1.15",
   "description": "Improves Aeries SIS for more convenient use.",
   "browser_action": {
     "default_icon": "icons/icon128.png",
