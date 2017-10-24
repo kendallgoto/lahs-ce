@@ -89,10 +89,6 @@ function bootSequence_phase2() {
   }, function(items) {
 		if(loadedFaux)
 			return;
-		if(items.aeriesid == '') {
-			logOutUser("aeries");
-			return;
-		}
 		login(items.user, items.pass).done(function() {
 			if(loadedFaux)
 				return;
@@ -155,11 +151,21 @@ function addFaux(param) {
 		chrome.tabs.sendRequest(tab.id, {addNewFaux: param}, null);
 	});
 }
+var loadFn = function loadBell() {
+	$('.footer a').attr('href', "");
+	$('.footer #sis').text("Go to Bell »");
+}
+var functionListing = {
+	'#bell': loadFn
+};
 $(function() {
 	//Boot sequence:
 	// Try to load page
 	// If fails, log in then load page
 	// If fails, prompt user for login.
+	
+	//load iframe!
+	$('<iframe src="http://bell.lahs.club"></iframe>').appendTo('#bell');
 	chrome.tabs.getSelected(null, function(tab) {
 		if(tab.url) {
 		 if(tab.url.toLowerCase().includes("/student/gradebookdetails.aspx")) {
@@ -174,18 +180,16 @@ $(function() {
     	chrome.tabs.create({url: $(this).attr('href')});
     return false;
   });
+  $('.btn').click(function() {
+	  tab(this, $(this).attr('data-tab'));
+  })
   chrome.storage.local.get({
-    aeriesid: '',
     user: '',
     pass: ''
   }, function(items) {
-		aeriesURL = "https://" +items.aeriesid + ".asp.aeries.net/student/";
+		aeriesURL = "https://mvla.asp.aeries.net/student/";
 		if(loadedFaux)
 			return;
-		if(aeriesURL == "") {
-			logOutUser("aeries");
-			return;
-		}
 		$('.footer a').attr('href', aeriesURL);
 		fetchClass().done(function(data){
 			if(!Array.isArray(data) || (data.length > 10 && data.length <= 0)) {
@@ -197,4 +201,17 @@ $(function() {
 			$('#headText').text("Network Error");
 		});
 	});
+});
+function tab(ele, goal) {
+	$('.btn.active').removeClass('active');
+	$(ele).addClass('active');
+	$('.body').addClass('hidden');
+	$('#'+goal).removeClass('hidden');
+	$('#'+goal).attr('attached')();
+}
+
+chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
+	if(msg == "LOADEDBELL") {
+		sendResponse('yes');
+	}
 });

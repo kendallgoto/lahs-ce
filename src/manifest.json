@@ -1,12 +1,12 @@
 {
-  "name": "Better SIS",
-	"short_name": "SIS+",
+  "name": "Los Altos High Helper",
+	"short_name": "LAHS+",
   "version": "1.15",
-  "description": "Improves Aeries SIS for more convenient use.",
+  "description": "A collection of convinent tools designed explicitly for students at Los Altos High (MVLA)",
   "browser_action": {
     "default_icon": "icons/icon128.png",
     "default_popup": "popup.html",
-    "default_title": "SIS"
+    "default_title": "LAHS+"
   },
 	"content_scripts": [
 		{
@@ -14,12 +14,23 @@
 			"css": ["css/cs.css"],
 			"js": ["js/jquery-3.2.1.min.js", "js/cs.js"],
 			"run_at": "document_end"
+		},
+		{
+			"matches": ["https://bell.lahs.club/*", "http://bell.lahs.club/*", "https://countdown.zone/*", "http://countdown.zone/*"],
+			"js": ["js/bell-override.js"],
+			"run_at": "document_end",
+			"all_frames": true
 		}
 	],
+	"web_accessible_resources": [ "css/bell.css" ],
   "permissions": [
 		"storage",
     "https://*.asp.aeries.net/*",
-    "http://*.asp.aeries.net/*"
+    "http://*.asp.aeries.net/*",
+		"http://bell.lahs.club/*",
+		"https://bell.lahs.club/*",
+		"http://countdown.zone/*",
+		"https://countdown.zone/*"
   ],
 	"options_ui": {
 		"page": "options.html",

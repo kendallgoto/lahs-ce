@@ -1,2 +1,4 @@
-# better-sis
-Chrome Extension - modifies Aeries SIS for ease of access.
+# lahs-ce
+Chrome Extension - all-around helpful apps for LAHS students.  
+
+Documentation to come

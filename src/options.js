@@ -1,9 +1,7 @@
 function save_options() {
-  var aeries = document.getElementById('aeries').value;
   var email = document.getElementById('email').value;
   var password = document.getElementById('password').value;
   chrome.storage.local.set({
-    aeriesid: aeries,
     user: email,
     pass: password,
   }, function() {
@@ -17,11 +15,9 @@ function save_options() {
 }
 function restore_options() {
   chrome.storage.local.get({
-    aeriesid: 'mvla',
     user: '',
     pass: ''
   }, function(items) {
-	 	document.getElementById('aeries').value = items.aeriesid;
 	  document.getElementById('email').value = items.user;
 	  document.getElementById('password').value = items.pass;
 		//https://stackoverflow.com/questions/30541436/focus-on-the-first-empty-input
