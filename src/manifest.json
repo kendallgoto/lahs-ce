@@ -20,6 +20,12 @@
 			"js": ["js/bell-override.js"],
 			"run_at": "document_end",
 			"all_frames": true
+		},
+		{
+			"matches": ["https://classroom.google.com/*"],
+			"css": ["css/classroom.css"],
+			"js": ["js/jquery-3.2.1.min.js", "js/cs.js"],
+			"run_at": "document_idle"
 		}
 	],
 	"web_accessible_resources": [ "css/bell.css" ],
@@ -30,7 +36,8 @@
 		"http://bell.lahs.club/*",
 		"https://bell.lahs.club/*",
 		"http://countdown.zone/*",
-		"https://countdown.zone/*"
+		"https://countdown.zone/*",
+		"https://classroom.google.com/*"
   ],
 	"options_ui": {
 		"page": "options.html",

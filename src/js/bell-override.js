@@ -1,3 +1,4 @@
+//inject custom CSS into our iframe when loaded via the CE
 chrome.runtime.sendMessage('LOADEDBELL', function(response) {
     if(response == "yes") {
 		var link = document.createElement('link');

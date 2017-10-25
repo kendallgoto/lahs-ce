@@ -1,0 +1,15 @@
+.coverBG {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.25);
+}
+.covPop {
+	margin-left: auto;
+	margin-right: auto;
+	background-color: white;
+	border-radius: 3px;
+	width: 60%;
+}
