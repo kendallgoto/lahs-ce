@@ -24,13 +24,19 @@
 		{
 			"matches": ["https://classroom.google.com/*"],
 			"css": ["css/classroom.css"],
-			"js": ["js/jquery-3.2.1.min.js", "js/cs.js"],
+			"js": ["js/jquery-3.2.1.min.js", "js/classroom.js"],
 			"run_at": "document_idle"
 		}
 	],
+	"background": {
+	      "scripts": ["js/background.js"]
+	},
 	"web_accessible_resources": [ "css/bell.css" ],
   "permissions": [
+		"webRequest",
+		"webRequestBlocking",
 		"storage",
+		"tabs",
     "https://*.asp.aeries.net/*",
     "http://*.asp.aeries.net/*",
 		"http://bell.lahs.club/*",

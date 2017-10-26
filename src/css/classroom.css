@@ -5,6 +5,10 @@
 	right: 0;
 	bottom: 0;
 	background-color: rgba(0, 0, 0, 0.25);
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .covPop {
 	margin-left: auto;
@@ -12,4 +16,25 @@
 	background-color: white;
 	border-radius: 3px;
 	width: 60%;
+	padding: 10px;
+}
+.covPop .header, .covPop .body {
+	border-bottom: 1px solid #eee;
+}
+.covPop .header, .covPop .body, .covPop .footer {
+	padding: 4px;
+}
+.covPop .saveBtn,
+.covPop .cancelBtn {
+	float: right;
+	display: inline-block;
+}
+.formSet {
+	display: flex;
+	justify-content: space-between;
+	margin: 5px 0;
+}
+.formSet .oObKMd.D0lNj {
+	flex-basis: 70%;
+	flex-grow: 0;
 }
