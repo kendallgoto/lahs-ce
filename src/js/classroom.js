@@ -1,14 +1,30 @@
 $(function() {
+	var maxTimeout = 0;
 	var waitLoad = setInterval(function() {
+		maxTimeout++;
+		if(maxTimeout > 65)
+			clearInterval(waitLoad);
 		if($('.gHz6xd').length > 0) {
 			addGearBar();
+			loadLAHSBell()
 			loadCustoms();
 			clearInterval(waitLoad);
 		}
-	}, 300);
+	}, 150);
+	var persistentApply = setInterval(function() {
+		if($('.gHz6xd').length > 0) {
+			addGearBar();
+			loadCustoms();
+		}
+	}, 5000);
+	var persistentTime = setInterval(function() {
+		if($('.gHz6xd').length > 0) {
+			loadLAHSBell()
+		}
+	}, 120000)
 });
 function addGearBar() {
-	if($('.gear').length > 0)
+	if($('.gHz6xd:contains("")').length > 0)
 		return;
 	$('.JwPp0e').children().each(function(indx, thisEle){
 		var bottomBar = $(thisEle).children().eq(2);
@@ -154,5 +170,75 @@ function loadCustoms() {
 				$('.OjOEXb', thisEle).hide();
 			}
 		});
+	});
+}
+
+function loadLAHSBell() {
+	//the bell schedule api is broken up into a lot of different pieces and mostly calculated server side, so we're going to replicate it.
+	
+	//essentially, we're building a micro-build of countdown.zone from scratch and pulling from its api.
+	//we need schedule list and calendar
+	//first, let's find what day we're on
+	$.ajax('https://countdown.zone/api/data/lahs/calendar?_v='+new Date().getTime()).done(function(result) {
+		//result contains our calendar list
+		//if our current date (11/11/2016) is in the list, use THAT schedule. (contents after "11/11/2016 ", with ()s removed)
+		//if not, our current date is found in the default week list (use same filtering process, but day of week is number starting at 0 for sunday)
+		var m = new Date();
+		var dateString = ("0" + (m.getUTCMonth()+1)).slice(-2) + "/" + ("0" + m.getUTCDate()).slice(-2)+ "/" + m.getUTCFullYear();
+		var day = m.getDay();
+		var whereIs = result.indexOf(dateString);
+		var target = "";
+		if(whereIs != -1) {
+			//special schedule today!
+			target = result.substring(whereIs, result.indexOf("\n", whereIs));
+		}
+		else {
+			//normal
+			target = result.substring(result.indexOf(day), result.indexOf("\n", result.indexOf(day)));
+		}
+		//schedule:
+		var stopAt = target.length;
+		if(target.indexOf("(") != -1)
+			stopAt = target.indexOf("(");
+		var schedule = target.substring(target.indexOf(" ")+1, stopAt-1); 
+		schedule.trim();
+		console.log(schedule);
+		$.ajax('https://countdown.zone/api/data/lahs/schedules?_v='+new Date().getTime()).done(function(result) {
+			var target = "* "+schedule;
+			var position = result.indexOf(target);
+			var end = result.indexOf("*", position+1);
+			console.log(target);
+			console.log(position);
+			console.log(end);
+			console.log(result.substring(position, end));
+			var shift = -1;
+			var last = -1;
+			var m = new Date();
+			var seconds = m.getSeconds() + m.getHours()*3600 + m.getMinutes()*60
+			var tclass = "";
+			while(true) {
+				shift = result.indexOf("\n", shift+1);
+				if(shift == -1)
+					break;
+				var string = result.substring(last, shift);
+				last = shift;
+				
+				//in this line!
+				//time:
+				var writtenTime = string.substring(0, string.indexOf(" "));
+				var fullString = "2017-8-28 " + writtenTime + ":00";
+				var targetTime = (Date.parse(fullString) - Date.parse("2017-8-28")) / 1000;
+				if(seconds > targetTime) {
+					//ok!
+					tclass = string.substring(string.indexOf(" ")+1);
+				}
+			}
+			tclass = tclass.trim().replace("{", "").replace("}", "");
+			console.log(tclass);
+			//find our class w this current period
+			$('.gHz6xd.active').removeClass('active');
+			$('.gHz6xd:contains("'+tclass+'")').addClass('active');
+		});
+		
 	});
 }
