@@ -21,7 +21,7 @@ $(function() {
 		if($('.gHz6xd').length > 0) {
 			loadLAHSBell()
 		}
-	}, 120000)
+	}, 15000)
 });
 function addGearBar() {
 	if($('.gHz6xd:contains("")').length > 0)
@@ -147,11 +147,9 @@ function loadCustoms() {
 		target['lahsce'+cid] = [];
 	    chrome.storage.local.get(target, function(items) {
 			var data = items['lahsce'+cid];
-			console.log(items);
 			if(!(('lahsce'+cid) in items) || items['lahsce'+cid] == undefined || items['lahsce'+cid].length == 0) {
 				return true;
 			}
-			console.log('contin');
 			$('.nk37z.YVvGBb', thisEle).text(data['name']);
 			$('.nk37z.YVvGBb', thisEle).next().text(data['period']);
 			if(!data['showPic'])
@@ -172,8 +170,49 @@ function loadCustoms() {
 		});
 	});
 }
-
+var globalSch = "";
+var globalTrg = "";
+var globalTime = 0;
+function loadWithSchedule(schedule, result) {
+	var target = "* "+schedule;
+	var position = result.indexOf(target);
+	var end = result.indexOf("*", position+1);
+	var sched = result.substring(position, end).trim();
+	var shift = -1;
+	var last = -1;
+	var m = new Date();
+	var seconds = m.getSeconds() + m.getHours()*3600 + m.getMinutes()*60;
+	var tclass = "";
+	sched = sched + "\n";
+	while(true) {
+		shift = sched.indexOf("\n", shift+1);
+		if(shift == -1)
+			break;
+		var string = sched.substring(last, shift);
+		last = shift;
+		
+		//in this line!
+		//time:
+		var writtenTime = string.substring(0, string.indexOf(" "));
+		var fullString = "2017-8-28 " + writtenTime + ":00";
+		var targetTime = (Date.parse(fullString) - Date.parse("2017-8-28")) / 1000;
+		if(seconds > targetTime) {
+			tclass = string.substring(string.indexOf(" ")+1);
+		}
+	}
+	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to "); //if we're passing, just jump ahead and highlight the next class.
+	console.log(tclass);
+	//find our class w this current period
+	$('.gHz6xd.active').removeClass('active');
+	$('.gHz6xd:contains("'+tclass+'")').addClass('active');
+}
 function loadLAHSBell() {
+	if(globalSch != "") { //cached call!
+		if(new Date() - globalTime < 1800*1000 ) {
+			loadWithSchedule(globalTrg, globalSch);
+			return;
+		}
+	}
 	//the bell schedule api is broken up into a lot of different pieces and mostly calculated server side, so we're going to replicate it.
 	
 	//essentially, we're building a micro-build of countdown.zone from scratch and pulling from its api.
@@ -202,42 +241,10 @@ function loadLAHSBell() {
 			stopAt = target.indexOf("(");
 		var schedule = target.substring(target.indexOf(" ")+1, stopAt-1); 
 		schedule.trim();
-		console.log(schedule);
 		$.ajax('https://countdown.zone/api/data/lahs/schedules?_v='+new Date().getTime()).done(function(result) {
-			var target = "* "+schedule;
-			var position = result.indexOf(target);
-			var end = result.indexOf("*", position+1);
-			console.log(target);
-			console.log(position);
-			console.log(end);
-			console.log(result.substring(position, end));
-			var shift = -1;
-			var last = -1;
-			var m = new Date();
-			var seconds = m.getSeconds() + m.getHours()*3600 + m.getMinutes()*60
-			var tclass = "";
-			while(true) {
-				shift = result.indexOf("\n", shift+1);
-				if(shift == -1)
-					break;
-				var string = result.substring(last, shift);
-				last = shift;
-				
-				//in this line!
-				//time:
-				var writtenTime = string.substring(0, string.indexOf(" "));
-				var fullString = "2017-8-28 " + writtenTime + ":00";
-				var targetTime = (Date.parse(fullString) - Date.parse("2017-8-28")) / 1000;
-				if(seconds > targetTime) {
-					//ok!
-					tclass = string.substring(string.indexOf(" ")+1);
-				}
-			}
-			tclass = tclass.trim().replace("{", "").replace("}", "");
-			console.log(tclass);
-			//find our class w this current period
-			$('.gHz6xd.active').removeClass('active');
-			$('.gHz6xd:contains("'+tclass+'")').addClass('active');
+			globalSch = result;
+			globalTime = new Date();
+			loadWithSchedule(schedule, result);
 		});
 		
 	});
