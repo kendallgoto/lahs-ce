@@ -11,7 +11,7 @@ function loadClassesWithData(data) {
 			//compare blobs!
 			compCheck = true;
 		}
-		$(".lds-css").remove();
+		$("#sis .lds-css").remove();
 		$('#grades').removeClass('hidden');
 		var date = new Date();
 		var day = date.getDate();
@@ -95,6 +95,8 @@ function bootSequence_phase2() {
 			fetchClass().done(function(data){
 				if(loadedFaux)
 					return;
+				console.log(data);
+				debugger;
 				if(!Array.isArray(data) || (data.length > 10 && data.length <= 0)) {
 					logOutUser("pass");
 					return;
@@ -136,9 +138,10 @@ function loadFaux() {
 	addFaux("1");
 	$('body').css('min-height', 0);
 	$('.footer a').attr('href', "javascript:addFaux(0)");
-	$('.footer #sis').text("+ Add Fake Assignment");
+	$('.footer #sisL').text("+ Add Fake Assignment");
 	$('#headText').text("Grade Calculator");
-	$(".lds-css").remove();
+	$("#sis .lds-css").remove();
+	$('.buttonBox').hide();
 	//create fake table
 	$('#calc').removeClass('hidden');
 	fetchCalc(function(res) {
@@ -151,12 +154,17 @@ function addFaux(param) {
 		chrome.tabs.sendRequest(tab.id, {addNewFaux: param}, null);
 	});
 }
-var loadFn = function loadBell() {
-	$('.footer a').attr('href', "");
-	$('.footer #sis').text("Go to Bell »");
+var loadFn = function () {
+	$('.footer #sisL').html("Go to Bell &rsaquo;");
+	$('.footer a').attr('href', "https://countdown.zone");
+}
+var loadSIS = function () {
+	$('.footer #sisL').html("Go to SIS &rsaquo;");
+	$('.footer a').attr('href', "https://mvla.asp.aeries.net/student/");
 }
 var functionListing = {
-	'#bell': loadFn
+	'#bell': loadFn,
+	'#sis': loadSIS
 };
 $(function() {
 	//Boot sequence:
@@ -165,7 +173,7 @@ $(function() {
 	// If fails, prompt user for login.
 	
 	//load iframe!
-	$('<iframe src="http://bell.lahs.club"></iframe>').appendTo('#bell');
+	$('<iframe src="http://bell.lahs.club" class="hidden"></iframe>').appendTo('#bell');
 	chrome.tabs.getSelected(null, function(tab) {
 		if(tab.url) {
 		 if(tab.url.toLowerCase().includes("/student/gradebookdetails.aspx")) {
@@ -177,7 +185,7 @@ $(function() {
 		if($(this).attr('href') == "javascript:addFaux(0)")
 			addFaux(0);
 		else
-    	chrome.tabs.create({url: $(this).attr('href')});
+    		chrome.tabs.create({url: $(this).attr('href')});
     return false;
   });
   $('.btn').click(function() {
@@ -207,11 +215,13 @@ function tab(ele, goal) {
 	$(ele).addClass('active');
 	$('.body').addClass('hidden');
 	$('#'+goal).removeClass('hidden');
-	$('#'+goal).attr('attached')();
+	functionListing['#'+goal]();
 }
 
 chrome.runtime.onMessage.addListener(function(msg, sender, sendResponse) {
 	if(msg == "LOADEDBELL") {
+		$('#bell iframe').removeClass('hidden');
+		$('#bell .lds-css').remove();
 		sendResponse('yes');
 	}
 });

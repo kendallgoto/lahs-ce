@@ -1,8 +1,8 @@
 {
   "name": "Los Altos High Helper",
 	"short_name": "LAHS+",
-  "version": "1.15",
-  "description": "A collection of convinent tools designed explicitly for students at Los Altos High (MVLA)",
+  "version": "1.6",
+  "description": "A collection of tools designed for students at Los Altos High (MVLA). Targets Google Classroom, Aeries, and the Bell Countdown.",
   "browser_action": {
     "default_icon": "icons/icon128.png",
     "default_popup": "popup.html",
@@ -36,7 +36,6 @@
 		"webRequest",
 		"webRequestBlocking",
 		"storage",
-		"tabs",
     "https://*.asp.aeries.net/*",
     "http://*.asp.aeries.net/*",
 		"http://bell.lahs.club/*",

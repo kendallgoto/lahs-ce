@@ -1,3 +1,6 @@
 #extension, .footer-right {
 	display: none !important;
 }
+#page1.container {
+	background: white !important;
+}

@@ -50,7 +50,7 @@ function openClassConsole(obj, cid) {
 	target = {};
 	target['lahsce'+cid] = [];
 	var data;
-    chrome.storage.local.get(target, function(items) {
+    chrome.storage.sync.get(target, function(items) {
 		data = items['lahsce'+cid];
 		console.log(data);
 		if(data == undefined || data.length == 0) {
@@ -59,7 +59,7 @@ function openClassConsole(obj, cid) {
 					"showPic": true,
 					"name": "",
 					"period": "",
-					"bg": true
+					"bg": false
 				};
 		}
 		//create popup
@@ -79,7 +79,7 @@ function openClassConsole(obj, cid) {
 					</div>\
 					<div class="formSet">\
 						<div class="label">Show picture: </div>\
-						<div id="showPic" class="LsSwGf q9cOh i9xfbb switchSet" role="checkbox"><div class="hh4xKf MLPG7"></div><div class="YGFwk MbhUzd"></div><div class="rbsY8b"><div class="E7QdY espmsb"></div></div></div>\
+						<div id="showPic" class="LsSwGf q9cOh i9xfbb N2RpBe switchSet" role="checkbox"><div class="hh4xKf MLPG7"></div><div class="YGFwk MbhUzd"></div><div class="rbsY8b"><div class="E7QdY espmsb"></div></div></div>\
 					</div>\
 					<div class="formSet">\
 						<div class="label">Unified Color: </div>\
@@ -113,7 +113,7 @@ function openClassConsole(obj, cid) {
 			target = {};
 			console.log('lahsce'+cid);
 			target['lahsce'+cid] = newData;
-		    chrome.storage.local.set(target, function() {
+		    chrome.storage.sync.set(target, function() {
 				$('#pop').remove();
 				loadCustoms();
 			});
@@ -145,7 +145,7 @@ function loadCustoms() {
 		var cid = $(thisEle).attr('data-course-id');
 		var target = {};
 		target['lahsce'+cid] = [];
-	    chrome.storage.local.get(target, function(items) {
+	    chrome.storage.sync.get(target, function(items) {
 			var data = items['lahsce'+cid];
 			if(!(('lahsce'+cid) in items) || items['lahsce'+cid] == undefined || items['lahsce'+cid].length == 0) {
 				return true;
@@ -202,9 +202,11 @@ function loadWithSchedule(schedule, result) {
 	}
 	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to "); //if we're passing, just jump ahead and highlight the next class.
 	console.log(tclass);
+	if(tclass == "")
+		return;
 	//find our class w this current period
 	$('.gHz6xd.active').removeClass('active');
-	$('.gHz6xd:contains("'+tclass+'")').addClass('active');
+	$('.gHz6xd:contains("'+tclass+'")').first().addClass('active');
 }
 function loadLAHSBell() {
 	if(globalSch != "") { //cached call!
