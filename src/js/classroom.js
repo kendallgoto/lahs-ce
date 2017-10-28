@@ -194,6 +194,7 @@ function loadWithSchedule(schedule, result) {
 		//in this line!
 		//time:
 		var writtenTime = string.substring(0, string.indexOf(" "));
+		//parsing the second-time of our string easily
 		var fullString = "2017-8-28 " + writtenTime + ":00";
 		var targetTime = (Date.parse(fullString) - Date.parse("2017-8-28")) / 1000;
 		if(seconds > targetTime) {
@@ -246,6 +247,7 @@ function loadLAHSBell() {
 		$.ajax('https://countdown.zone/api/data/lahs/schedules?_v='+new Date().getTime()).done(function(result) {
 			globalSch = result;
 			globalTime = new Date();
+			globalTrg = schedule;
 			loadWithSchedule(schedule, result);
 		});
 		
