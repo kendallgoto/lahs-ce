@@ -201,7 +201,7 @@ function loadWithSchedule(schedule, result) {
 			tclass = string.substring(string.indexOf(" ")+1);
 		}
 	}
-	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to "); //if we're passing, just jump ahead and highlight the next class.
+	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to ", ''); //if we're passing, just jump ahead and highlight the next class.
 	console.log(tclass);
 	if(tclass == "")
 		return;
