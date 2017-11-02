@@ -25,6 +25,9 @@ $(function() {
 					loadLAHSBell()
 					loadCustoms();
 				});
+				observeDOM(document.getElementsByClassName('DShyMc-AaTFfe')[0], function() {
+					loadCustoms(); //toolbar
+				});
 				loadObserveOnce = 1;
 			}
 			addGearBar();
@@ -186,6 +189,29 @@ function loadCustoms() {
 				$('.OjOEXb', thisEle).hide();
 			}
 		});
+	});
+	$('.Qks78e.QRiHXd').each(function(indx, thisEle){
+		var classC = $(thisEle).attr('class').split(' ');
+		for(var i = 0; i < classC.length; i++) {
+			if(classC[i].indexOf('DShyMc') != -1) {
+				//this is the classcode!
+				var classC = classC[i];
+				var cid = $('.'+classC).first().attr('data-course-id');
+				var target = {};
+				target['lahsce'+cid] = [];
+			    chrome.storage.sync.get(target, function(items) {
+					var data = items['lahsce'+cid];
+					if(!(('lahsce'+cid) in items) || items['lahsce'+cid] == undefined || items['lahsce'+cid].length == 0) {
+						return true;
+					}
+					if($('.vHZOhb.YVvGBb', thisEle).text() != data['name'])
+						$('.vHZOhb.YVvGBb', thisEle).text(data['name']);
+					if($('.udxSmc.YVvGBb', thisEle).next().text() != data['period'])
+						$('.udxSmc.YVvGBb', thisEle).next().text(data['period']);
+				});
+				return true;
+			}
+		}
 	});
 }
 var globalSch = "";
