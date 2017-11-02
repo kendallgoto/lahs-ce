@@ -155,7 +155,7 @@ function addFaux(param) {
 	});
 }
 var loadFn = function () {
-	$('.footer #sisL').html("Go to Bell &rsaquo;");
+	$('.footer #sisL').html("bell.lahs.club &rsaquo;");
 	$('.footer a').attr('href', "https://countdown.zone");
 }
 var loadSIS = function () {
