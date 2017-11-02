@@ -205,6 +205,8 @@ function loadCustoms() {
 						return true;
 					}
 					if($('.vHZOhb.YVvGBb', thisEle).text() != data['name'])
+						$('.UISY8d-Tvm9db', thisEle).text(data['name'].charAt(0));
+					if($('.vHZOhb.YVvGBb', thisEle).text() != data['name'])
 						$('.vHZOhb.YVvGBb', thisEle).text(data['name']);
 					if($('.udxSmc.YVvGBb', thisEle).next().text() != data['period'])
 						$('.udxSmc.YVvGBb', thisEle).next().text(data['period']);
