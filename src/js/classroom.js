@@ -247,13 +247,13 @@ function loadWithSchedule(schedule, result) {
 			tclass = string.substring(string.indexOf(" ")+1);
 		}
 	}
-	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to ", ''); //if we're passing, just jump ahead and highlight the next class.
+	tclass = tclass.trim().replace("{", "").replace("}", "").replace("Passing to ", '').replace("Period ", ''); //if we're passing, just jump ahead and highlight the next class.
 	console.log(tclass);
 	if(tclass == "")
 		return;
 	//find our class w this current period
 	$('.gHz6xd.active').removeClass('active');
-	$('.gHz6xd:contains("'+tclass+'")').first().addClass('active');
+	$('.gHz6xd .YVvGBb:nth-child(2):contains("'+tclass+'")').first().addClass('active');
 }
 function loadLAHSBell() {
 	if(globalSch != "") { //cached call!
