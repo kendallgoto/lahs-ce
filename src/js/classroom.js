@@ -1,22 +1,38 @@
+var observeDOM = (function(){
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver,
+        eventListenerSupported = window.addEventListener;
+    return function(obj, callback){
+        if( MutationObserver ){
+            var obs = new MutationObserver(function(mutations, observer){
+                if( mutations[0].addedNodes.length || mutations[0].removedNodes.length ) 
+                    callback();
+            });
+            obs.observe( obj, { attributes:false, childList:true, subtree:false });
+        }
+    };
+})();
 $(function() {
 	var maxTimeout = 0;
+	var loadObserveOnce = 0;
 	var waitLoad = setInterval(function() {
 		maxTimeout++;
 		if(maxTimeout > 65)
 			clearInterval(waitLoad);
 		if($('.gHz6xd').length > 0) {
+			if(!loadObserveOnce) {
+				observeDOM(document.getElementsByClassName('JwPp0e')[0], function() {
+					addGearBar();
+					loadLAHSBell()
+					loadCustoms();
+				});
+				loadObserveOnce = 1;
+			}
 			addGearBar();
 			loadLAHSBell()
 			loadCustoms();
 			clearInterval(waitLoad);
 		}
 	}, 150);
-	var persistentApply = setInterval(function() {
-		if($('.gHz6xd').length > 0) {
-			addGearBar();
-			loadCustoms();
-		}
-	}, 5000);
 	var persistentTime = setInterval(function() {
 		if($('.gHz6xd').length > 0) {
 			loadLAHSBell()
@@ -24,7 +40,7 @@ $(function() {
 	}, 15000)
 });
 function addGearBar() {
-	if($('.gHz6xd:contains("")').length > 0)
+	if($('.gHz6xd:contains("")').length > 0) //gear icon
 		return;
 	$('.JwPp0e').children().each(function(indx, thisEle){
 		var bottomBar = $(thisEle).children().eq(2);
@@ -125,8 +141,8 @@ function openClassConsole(obj, cid) {
 		if("bg" in data && data['bg'] == true) {
 			$('#bgEnable').addClass('N2RpBe');
 		}
-		if("showPic" in data && data['showPic'] == true) {
-			$('#showPic').addClass('N2RpBe');
+		if("showPic" in data && data['showPic'] == false) {
+			$('#showPic').removeClass('N2RpBe');
 		}
 		if("name" in data && data['name'] == "") {
 			$('#className', '#pop').text($('.nk37z.YVvGBb', '[data-course-id="'+cid+'"]').text())
@@ -150,8 +166,10 @@ function loadCustoms() {
 			if(!(('lahsce'+cid) in items) || items['lahsce'+cid] == undefined || items['lahsce'+cid].length == 0) {
 				return true;
 			}
-			$('.nk37z.YVvGBb', thisEle).text(data['name']);
-			$('.nk37z.YVvGBb', thisEle).next().text(data['period']);
+			if($('.nk37z.YVvGBb', thisEle).text() != data['name'])
+				$('.nk37z.YVvGBb', thisEle).text(data['name']);
+			if($('.nk37z.YVvGBb', thisEle).next().text() != data['period'])
+				$('.nk37z.YVvGBb', thisEle).next().text(data['period']);
 			if(!data['showPic'])
 				$('.PNzAWd', thisEle).hide();
 			else
